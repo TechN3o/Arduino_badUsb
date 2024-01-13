@@ -145,10 +145,4 @@ void script_5() {
 void script_6() {
 }
 
-
-can i see cahnges??
-2
-fdsfsdf fd
-8181edfdff77777777777777
-fdfsvcvbfdsfds88888888888888888
-fdsfddd
+  
