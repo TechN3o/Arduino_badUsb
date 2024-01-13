@@ -18,7 +18,6 @@ then pins.ioInit()
 // #include <Scheduler.h>
 Keyboard_ keyboard;
 //// shortcut
-#define TAB
 
 template<typename T, size_t N>
 int arraySize(T (&array)[N]) {
@@ -36,8 +35,8 @@ public:
   bool armed;
   int input[6] = { 11, 9, 7, 5, 3, 2 };  // + PIN 2 sensing GND
   int output[5] = { 12, 10, 8, 6, 4 };
-  void ioInit(bool out_state = true) {  //out_state sets logical value for output shortening pins. Keep this on true, 
-  //  but can be switched to false to make negative current from out pins
+  void ioInit(bool out_state = true) {  //out_state sets logical value for output shortening pins. Keep this on true,
+                                        //  but can be switched to false to make negative current from out pins
     for (int i; i != arraySize(input); i++) {
       pinMode(i, INPUT);
     }
@@ -48,11 +47,11 @@ public:
   }
   ////
   void checkCombination() {  // selecting the script based on return from pins.read()
-  switch(pins.read()){
-    case 1      //// assign script ordinal number, like script_1() is as no. 1
-      break;
+    // switch (pins.read()) {
+    //  case 1      //// assign script ordinal number, like script_1() is as no. 1
+    //   break;
   }
-  }
+
   ////
   int read() {  //checking shortening combination of pins
     int found;
@@ -69,7 +68,6 @@ public:
   bool isArmed() {
     return read() != 0;
   }
-private:
 };
 pins pins;
 
@@ -79,7 +77,7 @@ public:
 prg prg;
 class let {
 public:
-  int letters[128];
+  int letters[128]; //make array of integer HEX referencing letters on keyboard
   void init() {
   }
 };
@@ -89,7 +87,7 @@ public:
   String write(String input) {
   }
 
-  String shortcut(int i1, int i2, int i3 = nullI, int i4 = nullI, int i5 = nullI) {
+  int shortcut(int i1, int i2, int i3 = nullI, int i4 = nullI, int i5 = nullI) {
     keyboard.press(i1);
     keyboard.press(i2);
     if (i3 != nullI) {
@@ -104,7 +102,7 @@ public:
     delay(100);
     keyboard.releaseAll();
   }
-  // int shortcut(String i1, String i2, String i3 = nullS, String i4 = nullS, String i5 = nullS) {
+  // String shortcut(String i1, String i2, String i3 = nullS, String i4 = nullS, String i5 = nullS) { //if on L80 will be array of integers, String shortcut wont be used, bcs integer will 
   // }
 };
 
@@ -144,5 +142,3 @@ void script_5() {
 }
 void script_6() {
 }
-
-  
