@@ -1,8 +1,5 @@
-
-/* goals:
-*      make classes and executing code easy, with no addition to write executed code from zero and specific to one task, but rather from some base - classes, pointers, functions - in a short keyword: variable
-*      to do:
-*        shortcuts (alt+f, ctrl+f, win+f...) >>realisticly>> shortcut(CTRL, SHIFT, N); outputs ctrl+shift+letterN
+// https://github.com/TechN3o/Arduino_badUsb
+/*
 * ..you wont get the bitches either by doing this, but still its pretty cool shit to do
 *
 * I had also idea for nano33 iot.... to counter executing code, when i want to upload new one, I would just shorten 2 pins via jumper cable and that will disable the executing process and make space to upload 
@@ -20,6 +17,7 @@
 *just keep in mind, that SHORTENING pins to do actions is absolutely OPTIONAL and you dont have to do it
 */
 
+
 #include "Keyboard.h"
 #include <Timer.h>
 // #include <Scheduler.h>
@@ -29,8 +27,7 @@ Timer lastTime;
 
 template<typename T, size_t N>
 int arraySize(T (&array)[N]) {
-  uint8_t arrayLength = sizeof(array) / sizeof(array[0]);
-  return arrayLength;
+  return sizeof(array) / sizeof(array[0]);
 }
 
 
@@ -171,10 +168,19 @@ public:
   void prs(uint8_t k) {
     Keyboard.press(k);
   }
+  void press(uint8_t k) {
+    Keyboard.press(k);
+  }
   void prt(String w) {
     Keyboard.print(w);
   }
+  void print(String w) {
+    Keyboard.print(w);
+  }
   void prtln(String w) {
+    Keyboard.println(w);
+  }
+  void println(String w) {
     Keyboard.println(w);
   }
   void rls(uint8_t k) {
@@ -183,7 +189,9 @@ public:
   void rlsA() {
     Keyboard.releaseAll();
   }
-
+  void dl(uint16_t i) {
+    delay(i);
+  }
 
   void sht(uint8_t i1, uint8_t i2, uint8_t i3 = nullI, uint8_t i4 = nullI, uint8_t i5 = nullI) {  // SHORTCUT
     int counter = 0;
@@ -267,16 +275,20 @@ void setup() {
   pins.startPing(sqrt(32 / 2));  // pusleIn() will then read 32  //sqrt(32 / 2) = sqrt(16) = 4  = analogWrite(4) //
   for (int i = 0; i < arraySize(pins.input); i++) {
     if (pins.read(pins.input[i])) {
-      tls.comment("Ready for an upload");
+      tls.comment("Ready for an upload");  // UPLOAD
       delay(3000);
       pins.endPing();
       Keyboard.end();
-      runScript(3);
     } else {
       Keyboard.begin(KeyboardLayout_cz_CZ);
       tls.comment("lets hunt");
       pins.endPing();
-      runScript(3);
+      k.sht(KEY_LEFT_GUI, 'm');  //minimalize everything
+      runScript(2);
+      delay(1000);
+      runScript(1);
+
+      Keyboard.end();
     }
   }
   /////////////
@@ -284,7 +296,7 @@ void setup() {
 
 void loop() {
   if (Serial.available() > 0) {
-    runScript(3);
+    runScript(4);
     Serial.read();
   }
 }
@@ -325,38 +337,84 @@ int runScript(uint8_t s) {
 void script_1() {
   k.sht(KEY_LEFT_GUI, 'r');  //mělo by být velké i to B, protože shift se drží v každém případě
   k.prtln("cmd");
-  delay(600);
+  k.dl(600);
   k.sht(KEY_LEFT_GUI, KEY_UP_ARROW);
-  delay(200);
+  k.dl(200);
   k.prtln("color a");
   k.prtln("ipconfig -all");
-  delay(4000);
-  k.prt("    oteviram zadni vratka...");
+  k.prt("...pich pich...");
   k.sht(KEY_LEFT_CTRL, '-');
   k.sht(KEY_LEFT_CTRL, '-');
   k.sht(KEY_LEFT_CTRL, '-');
+  k.dl(1000);
+  k.rlsA();
+  script_3();
 }
 void script_2() {
   k.sht(KEY_LEFT_GUI, 'r');  //mělo by být velké i to B, protože shift se drží v každém případě
   k.prtln("cmd");
-  delay(600);
+  k.dl(600);
   k.sht(KEY_LEFT_GUI, KEY_UP_ARROW);
-  delay(600);
-  k.prtln("color a");
+  k.dl(600);
+  k.prtln("color 5");
   k.prtln("curl ascii.live/donut");
   k.sht(KEY_LEFT_CTRL, '+');
   k.sht(KEY_LEFT_CTRL, '+');
   k.sht(KEY_LEFT_CTRL, '+');
 }
-void script_3() {
-  
+void script_3() {  // rickroll
+  k.sht(KEY_LEFT_GUI, 'r');
+  k.dl(1000);
+  k.prtln("https://www.youtube.com/watch?v=mx86-rTclzA&ab_channel=AviatorCameron");
+  k.dl(5000);
+  k.wr('f');
 }
-void script_4() {
+void script_4() {  //minonky script
+  uint32_t rand = random(32000);
+  k.sht(KEY_LEFT_GUI, 'r');
+  k.prtln("cmd");
+  k.dl(1000);
+  k.prtln("cd desktop");
+  k.prtln("color a");
+  k.prtln("type nul > hello" + String(rand) + ".txt");
+  delay(500);
+  delay(1000);
+  k.sht(KEY_LEFT_CTRL, 's');
+  delay(300);
+  k.sht(KEY_LEFT_ALT, KEY_TAB);
+  delay(150);
+  k.prtln("type hello" + String(rand) + ".txt");
 }
 void script_5() {
 }
 void script_6() {
 }
 void script_7() {
+}
+void script_8() {
+}
+void script_9() {
+}
+void script_10() {
+}
+void script_11() {
+}
+void script_12() {
+}
+void script_13() {
+}
+void script_14() {
+}
+void script_15() {
+}
+void script_16() {
+}
+void script_17() {
+}
+void script_18() {
+}
+void script_19() {
+}
+void script_20() {
 }
 //....
